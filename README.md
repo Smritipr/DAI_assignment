@@ -29,3 +29,8 @@ missing values, duplicate entries, and potential outliers, which need to be addr
  • Identify relationships between variables and interpret their significance.
  • Use multivariate techniques to analyze complex interactions in the data.
  • Prepare an elaborate report about your analysis.
+
+
+
+
+Smriti priya
