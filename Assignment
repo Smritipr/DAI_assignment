@@ -1,134 +1,38 @@
-# Import necessary libraries
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from scipy import stats
+DAI_assignment
+Dataset Take any dataset of your choice that contains multiple numerical and categorical variables representing different attributes. 
+The dataset may include missing values, duplicate entries, and potential outliers, which need to be addressed in this assignment. 
+Tasks to be Performed
 
-# Ignore warnings
-import warnings
-warnings.filterwarnings("ignore")
+Data Cleaning:
+• Load the dataset and inspect its structure.
+• Handle missing values using imputation or removal techniques.
+• Identify and remove duplicate records.
+• Detect and treat outliers using appropriate statistical methods.
+• Standardize categorical values (e.g., fixing typos or formatting inconsistencies).
 
-# Load the Titanic dataset
-df = pd.read_csv("https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv")
+Exploratory Data Analysis (EDA): 
+Univariate Analysis (Single-Variable Exploration)
+• Summary statistics (mean, median, mode, variance, skewness, etc.). 
+• Frequency distributions for categorical variables.
+• Histograms and box plots to visualize distributions. 
 
-# Display basic dataset information
-print("Dataset Overview:")
-print(df.head())
-print("\nDataset Info:")
-print(df.info())
-print("\nMissing Values:")
-print(df.isnull().sum())
+Bivariate Analysis (Two-Variable Exploration)
+• Correlation matrix to identify relationships between numerical variables. 
+• Scatter plots for continuous variable relationships. 
+• Bar plots, violin plots, and box plots to compare categorical and numerical variables. 
 
-# Check for duplicates
-print(f"\nNumber of duplicate entries: {df.duplicated().sum()}")
+Multivariate Analysis (Multiple Variables Exploration) 
+• Pair plots to analyze multiple relationships simultaneously. 
+• Heatmaps to visualize correlations among multiple variables. 
+• Grouped comparisons to identify combined effects of multiple features. 
 
-# ==========================
-# Step 1: Data Cleaning
-# ==========================
+Expected Outcome By the end of this assignment, students should be able to: 
+• Apply data cleaning techniques to prepare a dataset for analysis. 
+• Understand and visualize distributions of individual variables.
+• Identify relationships between variables and interpret their significance. 
+• Use multivariate techniques to analyze complex interactions in the data. 
+• Prepare an elaborate report about your analysis.
 
-# Handling Missing Values
-df['Age'].fillna(df['Age'].median(), inplace=True)  # Fill missing Age with median
-df['Embarked'].fillna(df['Embarked'].mode()[0], inplace=True)  # Fill missing Embarked with mode
-df.drop(columns=['Cabin'], inplace=True)  # Drop Cabin due to too many missing values
 
-# Remove duplicate records
-df = df.drop_duplicates()
-
-# Outlier Detection and Removal using IQR Method
-def remove_outliers(df, column):
-    Q1 = df[column].quantile(0.25)
-    Q3 = df[column].quantile(0.75)
-    IQR = Q3 - Q1
-    lower_bound = Q1 - 1.5 * IQR
-    upper_bound = Q3 + 1.5 * IQR
-    return df[(df[column] >= lower_bound) & (df[column] <= upper_bound)]
-
-df = remove_outliers(df, 'Fare')
-df = remove_outliers(df, 'Age')
-
-# Standardizing Categorical Values
-df['Sex'] = df['Sex'].str.lower().str.strip()
-df['Embarked'] = df['Embarked'].str.upper().str.strip()
-
-print("\nData Cleaning Completed!")
-
-# ==========================
-# Step 2: Exploratory Data Analysis (EDA)
-# ==========================
-
-# Univariate Analysis - Summary Statistics
-print("\nSummary Statistics:")
-print(df.describe())
-print("\nCategorical Variable Summary:")
-print(df.describe(include='O'))
-
-# Visualizing Distributions
-plt.figure(figsize=(10, 6))
-df.hist(figsize=(10, 6), bins=20)
-plt.suptitle("Histogram of Numerical Variables")
-plt.show()
-
-# Box plots for numerical columns
-plt.figure(figsize=(10, 5))
-sns.boxplot(data=df[['Age', 'Fare']])
-plt.title("Box Plot of Age and Fare")
-plt.show()
-
-# Categorical Variable Frequency
-plt.figure(figsize=(6, 4))
-sns.countplot(x=df['Sex'])
-plt.title("Gender Distribution")
-plt.show()
-
-# Bivariate Analysis - Correlation Matrix
-plt.figure(figsize=(8,6))
-sns.heatmap(df.corr(), annot=True, cmap='coolwarm', linewidths=0.5)
-plt.title("Correlation Matrix")
-plt.show()
-
-# Scatter Plot for Continuous Variables
-sns.scatterplot(x=df['Age'], y=df['Fare'], hue=df['Survived'])
-plt.title("Age vs Fare")
-plt.show()
-
-# Box Plot for Categorical & Numerical Variables
-plt.figure(figsize=(8,6))
-sns.boxplot(x='Survived', y='Age', data=df)
-plt.title("Age vs Survival")
-plt.show()
-
-# Multivariate Analysis - Pair Plot
-sns.pairplot(df[['Age', 'Fare', 'Pclass', 'Survived']], hue="Survived")
-plt.show()
-
-# Heatmap of Correlations
-plt.figure(figsize=(8,6))
-sns.heatmap(df.corr(), annot=True, cmap='coolwarm')
-plt.title("Heatmap of Correlations")
-plt.show()
-
-# ==========================
-# Step 3: Save Cleaned Data
-# ==========================
-
-df.to_csv("cleaned_titanic.csv", index=False)
-print("\nCleaned dataset saved as 'cleaned_titanic.csv'")
-
-# ==========================
-# Summary of Key Findings
-# ==========================
-
-summary = """
-Key Findings:
-- Missing values handled: Age (median), Embarked (mode), Cabin dropped.
-- Duplicates removed.
-- Outliers treated: Extreme values in Fare and Age removed.
-- Survival Analysis:
-  - Higher survival rate among women.
-  - Higher ticket fare correlates with a higher survival rate.
-  - Passengers in higher classes (Pclass 1) had a better survival chance.
-"""
-
-print(summary)
+BY-SMRITI PRIYA 23116091
 
